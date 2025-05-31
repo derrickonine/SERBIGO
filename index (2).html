@@ -1,0 +1,172 @@
+<?php
+session_start();
+$isLoggedIn = isset($_SESSION['user_email']);
+$isAdmin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>serbiGO - Votre solution de covoiturage au Maroc</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="serbigo.jpg" height="150" width="150" alt="Logo serbiGO"/>
+            </div>
+            <ul>
+                <li><a href="index.php" class="active">Accueil</a></li>
+                <li><a href="recherche.php">Rechercher un trajet</a></li>
+                <li><a href="proposer.php">Proposer un trajet</a></li>
+                <?php if ($isLoggedIn): ?>
+                    <li><a href="profil.php">Profil</a></li>
+                    <li><a href="historique.php">Historique des trajets</a></li>
+                    <li><a href="messages.php">Messagerie</a></li>
+                    <li><a href="notifications.php">Notifications</a></li>
+                    <?php if ($isAdmin): ?>
+                        <li><a href="admin.php">Administration</a></li>
+                    <?php endif; ?>
+                    <li class="auth"><a href="deconnexion.php">Déconnexion</a></li>
+                <?php else: ?>
+                    <li class="auth"><a href="connexion.php">Connexion</a></li>
+                    <li class="auth"><a href="inscription.php">Inscription</a></li>
+                <?php endif; ?>
+            </ul>
+        </nav>
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Partagez la route, simplifiez vos trajets au Maroc.</h1>
+                <p>Connectez-vous avec des conducteurs et des passagers à travers le Maroc et voyagez à moindre coût.</p>
+                <div class="search-bar">
+                    <form action="recherche.php" method="GET">
+                        <div class="input-group">
+                            <label for="depart"><i class="fas fa-map-marker-alt"></i> Départ :</label>
+                            <input type="text" id="depart" name="depart" placeholder="ex. Casablanca, Rabat, Marrakech" list="villes">
+                            <datalist id="villes">
+                                <option value="Casablanca">
+                                <option value="Rabat">
+                                <option value="Marrakech">
+                                <option value="Fès">
+                                <option value="Tanger">
+                                <option value="Agadir">
+                            </datalist>
+                        </div>
+                        <div class="input-group">
+                            <label for="destination"><i class="fas fa-flag-checkered"></i> Destination :</label>
+                            <input type="text" id="destination" name="destination" placeholder="ex. Agadir, Tanger, Fès" list="villes">
+                        </div>
+                        <div class="input-group">
+                            <label for="date_trajet"><i class="fas fa-calendar-alt"></i> Date :</label>
+                            <input type="date" id="date_trajet" name="date_trajet" min="<?php echo date('Y-m-d'); ?>">
+                        </div>
+                        <button type="submit" class="button primary"><i class="fas fa-search"></i> Rechercher un trajet</button>
+                    </form>
+                    <?php if ($isLoggedIn): ?>
+                        <a href="proposer.php" class="button secondary"><i class="fas fa-car"></i> Proposer un trajet</a>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="images/hero-carpool.svg" alt="Illustration de covoiturage">
+            </div>
+        </div>
+    </header>
+
+    <section class="features">
+        <h2>Pourquoi choisir serbiGO ?</h2>
+        <div class="feature-list">
+            <div class="feature">
+                <i class="fas fa-users"></i>
+                <h3>Large communauté sécurisée</h3>
+                <p>Connectez-vous avec des milliers d'utilisateurs au Maroc avec des profils vérifiés et un système de notation pour voyager en toute confiance.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-euro-sign"></i>
+                <h3>Économique</h3>
+                <p>Réduisez vos frais de déplacement en partageant les coûts, en dirhams marocains.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-route"></i>
+                <h3>Flexibilité</h3>
+                <p>Trouvez des trajets qui correspondent à votre itinéraire et à votre emploi du temps, de Casablanca à Ouarzazate.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works">
+        <h2>Comment ça marche ?</h2>
+        <div class="steps">
+            <div class="step">
+                <i class="fas fa-map-marked-alt"></i>
+                <h3>1. Rechercher un trajet</h3>
+                <p>Entrez votre point de départ et votre destination (ex. Rabat à Marrakech) et la date souhaitée.</p>
+            </div>
+            <div class="step">
+                <i class="fas fa-handshake"></i>
+                <h3>2. Se connecter</h3>
+                <p>Parcourez les offres disponibles et contactez les conducteurs ou passagers via la messagerie sécurisée.</p>
+            </div>
+            <div class="step">
+                <i class="fas fa-car"></i>
+                <h3>3. Voyager ensemble</h3>
+                <p>Profitez de votre trajet en covoiturage, partagez les frais et laissez un avis après le voyage.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="call-to-action">
+        <h2>Prêt à partager la route au Maroc ?</h2>
+        <p>Rejoignez la communauté serbiGO et commencez à voyager intelligemment dès aujourd'hui !</p>
+        <div class="cta-buttons">
+            <a href="inscription.php" class="button primary"><i class="fas fa-user-plus"></i> S'inscrire maintenant</a>
+            <a href="recherche.php" class="button secondary"><i class="fas fa-eye"></i> Découvrir les trajets</a>
+            <?php if ($isLoggedIn): ?>
+                <a href="historique.php" class="button secondary"><i class="fas fa-history"></i> Voir mon historique</a>
+            <?php endif; ?>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-caravan"></i> serbiGO
+            </div>
+            <ul class="footer-links">
+                <li><a href="about.php">À propos</a></li>
+                <li><a href="faq.php">FAQ</a></li>
+                <li><a href="privacy.php">Confidentialité</a></li>
+                <li><a href="terms.php">Conditions d'utilisation</a></li>
+                <li><a href="contact.php">Contact</a></li>
+                <?php if ($isAdmin): ?>
+                    <li><a href="admin.php">Gestion des comptes</a></li>
+                <?php endif; ?>
+            </ul>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 serbiGO. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Ajouter des suggestions dynamiques ou validation pour le formulaire
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const depart = document.getElementById('depart').value;
+            const destination = document.getElementById('destination').value;
+            const date = document.getElementById('date_trajet').value;
+            if (!depart || !destination || !date) {
+                e.preventDefault();
+                alert('Veuillez remplir tous les champs du formulaire.');
+            }
+        });
+    </script>
+</body>
+</html>
